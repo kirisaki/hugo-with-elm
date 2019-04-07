@@ -1,7 +1,8 @@
 const path = require("path")
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = () => ({
-  mode: 'development',
+  mode: 'production',
   entry: {
     main: path.join(__dirname, './src/index.js'),
   },
@@ -17,9 +18,8 @@ module.exports = () => ({
           {
             loader: 'elm-webpack-loader',
             options: {
-              cwd: path.join(__dirname),
-              debug: true
-            }
+              optimize: true,
+              },
           }
         ]
       },
@@ -28,5 +28,28 @@ module.exports = () => ({
         use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
-  }
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        terserOptions: {
+          mangle: false,
+          compress: {
+            pure_funcs: ['F2','F3','F4','F5','F6','F7','F8','F9','A2','A3','A4','A5','A6','A7','A8','A9'],
+            pure_getters: true,
+            keep_fargs: false,
+            unsafe_comps: true,
+            unsafe: true,
+          },
+        },
+      }),
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        terserOptions: { mangle: true },
+      }),
+    ],
+  },
 })
