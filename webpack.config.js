@@ -7,7 +7,9 @@ module.exports = () => ({
     main: path.join(__dirname, './src/index.js'),
   },
   output: {
-    path: path.join(__dirname, 'static')
+    path: path.join(__dirname, 'static'),
+    library: 'Elm',
+    libraryTarget: 'umd'
   },
   module: {
     rules: [
